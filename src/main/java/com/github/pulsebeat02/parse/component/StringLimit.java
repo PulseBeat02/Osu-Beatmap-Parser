@@ -12,8 +12,12 @@ public class StringLimit {
         this.value = value;
     }
 
-    public Set<String> getValid() { return valid; }
+    public Set<String> getValid() {
+        return valid;
+    }
 
-    public String getValue() { return value; }
+    public String getValue() {
+        return value;
+    }
 
 }

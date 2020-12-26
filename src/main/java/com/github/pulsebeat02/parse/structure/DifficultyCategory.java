@@ -1,12 +1,12 @@
 package com.github.pulsebeat02.parse.structure;
 
-import com.github.pulsebeat02.parse.Category;
+import com.github.pulsebeat02.parse.ConfigurationFactory;
 import com.github.pulsebeat02.parse.component.DoubleValueLimit;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class DifficultyCategory extends Category {
+public class DifficultyCategory extends ConfigurationFactory {
 
     public DifficultyCategory() {
         super("Difficulty", Arrays.stream(DifficultyCategoryKey.values()).map(DifficultyCategoryKey::getOsuKey).collect(Collectors.toSet()));
@@ -27,7 +27,9 @@ public class DifficultyCategory extends Category {
             this.key = key;
         }
 
-        public OsuKey getOsuKey() { return key; }
+        public OsuKey getOsuKey() {
+            return key;
+        }
 
     }
 

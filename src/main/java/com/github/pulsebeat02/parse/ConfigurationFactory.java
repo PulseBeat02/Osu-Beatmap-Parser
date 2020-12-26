@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Category extends AbstractCategory {
+public class ConfigurationFactory extends AbstractCategory {
 
     private final String name;
     private final Set<OsuKey> keys;
 
-    public Category(final String name, final Set<OsuKey> keys) {
+    public ConfigurationFactory(final String name, final Set<OsuKey> keys) {
         this.name = name;
         this.keys = keys;
     }

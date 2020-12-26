@@ -10,7 +10,9 @@ public class VideosCategory {
         this.videos = videos;
     }
 
-    public List<Video> getVideos() { return videos; }
+    public List<Video> getVideos() {
+        return videos;
+    }
 
     private class Video {
 

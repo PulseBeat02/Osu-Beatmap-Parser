@@ -12,8 +12,12 @@ public class IntegerValueLimit {
         this.value = value;
     }
 
-    private Set<Integer> getValid() { return valid; };
+    private Set<Integer> getValid() {
+        return valid;
+    }
 
-    private int getValue() { return value; }
+    private int getValue() {
+        return value;
+    }
 
 }

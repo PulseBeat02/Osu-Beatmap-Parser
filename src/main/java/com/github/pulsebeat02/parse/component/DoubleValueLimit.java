@@ -12,10 +12,16 @@ public class DoubleValueLimit {
         this.value = value;
     }
 
-    private double getLower() { return lower; };
+    private double getLower() {
+        return lower;
+    }
 
-    private double getHigher() { return higher; }
+    private double getHigher() {
+        return higher;
+    }
 
-    private double getValue() { return value; }
+    private double getValue() {
+        return value;
+    }
 
 }

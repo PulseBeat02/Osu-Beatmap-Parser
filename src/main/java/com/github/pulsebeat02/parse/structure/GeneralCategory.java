@@ -1,14 +1,14 @@
 package com.github.pulsebeat02.parse.structure;
 
-import com.github.pulsebeat02.parse.Category;
-import com.github.pulsebeat02.parse.component.StringLimit;
+import com.github.pulsebeat02.parse.ConfigurationFactory;
 import com.github.pulsebeat02.parse.component.IntegerValueLimit;
+import com.github.pulsebeat02.parse.component.StringLimit;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-public class GeneralCategory extends Category {
+public class GeneralCategory extends ConfigurationFactory {
 
     public GeneralCategory() {
         super("General", Arrays.stream(GeneralCategoryKey.values()).map(GeneralCategoryKey::getOsuKey).collect(Collectors.toSet()));
@@ -42,7 +42,9 @@ public class GeneralCategory extends Category {
             this.key = key;
         }
 
-        public OsuKey getOsuKey() { return key; }
+        public OsuKey getOsuKey() {
+            return key;
+        }
 
     }
 

@@ -2,6 +2,7 @@ package com.github.pulsebeat02;
 
 /*
 TODO:
- - Finish Sliders, Slider Curves, anything below that
+ - Research/Finish Storyboards Category
+ - Add Binary Parsing
  - Add Documentation
  */

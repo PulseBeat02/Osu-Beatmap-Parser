@@ -1,12 +1,11 @@
 package com.github.pulsebeat02.parse.structure;
 
-import com.github.pulsebeat02.parse.Category;
+import com.github.pulsebeat02.parse.ConfigurationFactory;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-
-public class MetadataCategory extends Category {
+public class MetadataCategory extends ConfigurationFactory {
 
     public MetadataCategory() {
         super("Metadata", Arrays.stream(MetadataCategoryKey.values()).map(MetadataCategoryKey::getOsuKey).collect(Collectors.toSet()));
@@ -31,7 +30,9 @@ public class MetadataCategory extends Category {
             this.key = key;
         }
 
-        public OsuKey getOsuKey() { return key; }
+        public OsuKey getOsuKey() {
+            return key;
+        }
 
     }
 

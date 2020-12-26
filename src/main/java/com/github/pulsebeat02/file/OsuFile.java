@@ -18,8 +18,12 @@ public class OsuFile {
         this.name = name;
     }
 
-    public String getPath() { return path; }
+    public String getPath() {
+        return path;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
 }

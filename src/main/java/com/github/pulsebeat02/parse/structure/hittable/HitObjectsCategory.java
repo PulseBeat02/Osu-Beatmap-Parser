@@ -6,30 +6,6 @@ import java.util.List;
 
 public class HitObjectsCategory {
 
-    private class HitObject {
-
-        private final int x;
-        private final int y;
-        private final int time;
-        private final ObjectType type;
-        private final HitSound sound;
-        private final List<String> objectParams;
-        private final List<HitSample> hitSamples;
-
-        public HitObject(final int x, final int y, final int time,
-                         final ObjectType type, final HitSound sound,
-                         final List<String> objectParams, final List<HitSample> hitSamples) {
-            this.x = x;
-            this.y = y;
-            this.time = time;
-            this.type = type;
-            this.sound = sound;
-            this.objectParams = objectParams;
-            this.hitSamples = hitSamples;
-        }
-
-    }
-
     private enum ObjectType {
 
         HIT_CIRCLE(0),
@@ -103,19 +79,43 @@ public class HitObjectsCategory {
                 this.id = id;
             }
 
-            public int getId() {
-                return id;
-            }
-
             public static SetArgument getFromId(final int id) {
                 for (SetArgument arg : SetArgument.values()) {
                     if (arg.getId() == id) {
                         return arg;
                     }
                 }
-                return new MinecraftBeatmapParseException("Could not parse NormalSet/AdditionSet ID")
+                throw new MinecraftBeatmapParseException("Could not parse NormalSet/AdditionSet ID");
             }
 
+            public int getId() {
+                return id;
+            }
+
+        }
+
+    }
+
+    private class HitObject {
+
+        private final int x;
+        private final int y;
+        private final int time;
+        private final ObjectType type;
+        private final HitSound sound;
+        private final Hittable objectParams;
+        private final List<HitSample> hitSamples;
+
+        public HitObject(final int x, final int y, final int time,
+                         final ObjectType type, final HitSound sound,
+                         final Hittable objectParams, final List<HitSample> hitSamples) {
+            this.x = x;
+            this.y = y;
+            this.time = time;
+            this.type = type;
+            this.sound = sound;
+            this.objectParams = objectParams;
+            this.hitSamples = hitSamples;
         }
 
     }
