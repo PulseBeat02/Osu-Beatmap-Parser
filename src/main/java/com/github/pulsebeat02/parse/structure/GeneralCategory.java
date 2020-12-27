@@ -11,6 +11,7 @@ import com.github.pulsebeat02.throwable.KeyNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,15 @@ public class GeneralCategory extends KeyMapFactory {
         WIDESCREEN_STORYBOARD(new OsuKey("WidescreenStoryboard", new IntegerValueLimit(new HashSet<>(Arrays.asList(0, 1)), 0), Integer.class)),
         SAMPLES_MATCH_PLAYBACK_RATE(new OsuKey("SamplesMatchPlaybackRate", new IntegerValueLimit(new HashSet<>(Arrays.asList(0, 1)), 0), Integer.class));
 
+        private static Map<String, GeneralCategoryKey> keys;
+
+        static {
+            keys = new HashMap<>();
+            for (GeneralCategoryKey key : GeneralCategoryKey.values()) {
+                keys.put(key.getOsuKey().getName(), key);
+            }
+        }
+
         private final OsuKey key;
 
         GeneralCategoryKey(final OsuKey key) {
@@ -61,12 +71,7 @@ public class GeneralCategory extends KeyMapFactory {
         }
 
         public static GeneralCategoryKey getKeyFromString(final String name) {
-            for (GeneralCategoryKey key : GeneralCategoryKey.values()) {
-                if (key.getOsuKey().getName().equals(name)) {
-                    return key;
-                }
-            }
-            throw new KeyNotFoundException("Key: " + name + " could not be found!");
+            return keys.get(name);
         }
 
     }
