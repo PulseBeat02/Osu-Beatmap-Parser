@@ -1,14 +1,17 @@
 package com.github.pulsebeat02.parse.structure;
 
-import com.github.pulsebeat02.parse.ConfigurationFactory;
+import com.github.pulsebeat02.file.OsuFile;
+import com.github.pulsebeat02.parse.KeyMapFactory;
+import com.github.pulsebeat02.parse.component.OsuKey;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class MetadataCategory extends ConfigurationFactory {
+public class MetadataCategory extends KeyMapFactory {
 
-    public MetadataCategory() {
-        super("Metadata", Arrays.stream(MetadataCategoryKey.values()).map(MetadataCategoryKey::getOsuKey).collect(Collectors.toSet()));
+    public MetadataCategory(final OsuFile file) throws IOException {
+        super("Metadata", file, Arrays.stream(MetadataCategoryKey.values()).map(MetadataCategoryKey::getOsuKey).collect(Collectors.toSet()));
     }
 
     private enum MetadataCategoryKey {

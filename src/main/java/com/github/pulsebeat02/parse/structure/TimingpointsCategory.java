@@ -1,16 +1,20 @@
 package com.github.pulsebeat02.parse.structure;
 
+import com.github.pulsebeat02.file.OsuFile;
+import com.github.pulsebeat02.parse.CommaSeparatedValueFactory;
 import com.github.pulsebeat02.parse.component.IntegerValueLimit;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-public class TimingpointsCategory {
+public class TimingpointsCategory extends CommaSeparatedValueFactory {
 
     private final List<Timingpoint> points;
 
-    public TimingpointsCategory(List<Timingpoint> points) {
+    public TimingpointsCategory(final OsuFile file, final List<Timingpoint> points) throws IOException {
+        super("Timingpoints", file, TimingpointsCategory.class);
         this.points = points;
     }
 

@@ -1,5 +1,7 @@
 package com.github.pulsebeat02.parse;
 
+import com.github.pulsebeat02.file.OsuFile;
+
 import java.util.List;
 import java.util.Map;
 
@@ -36,33 +38,22 @@ public abstract class AbstractCategory {
     /**
      * Returns the default values of the category. (For map purposes)
      *
-     * @return Map<String, Class < ?>> types values must be to follow.
+     * @return Map<String, Class<?>> types values must be to follow.
      */
     abstract Map<String, Class<?>> getValueTypes();
 
-    public static class OsuKey {
+    /**
+     * Returns OsuFile class
+     *
+     * @return OsuFile class for each file.
+     */
+    abstract OsuFile getOsuFile();
 
-        private final String name;
-        private final Object defaultValue;
-        private final Class<?> defaultValueType;
+    /**
+     * Returns all lines in an Osu file
+     *
+     * @return List<String> lines in the Osu file.
+     */
+    abstract List<String> getOsuFileContents();
 
-        public OsuKey(final String name, final Object defaultValue, final Class<?> defaultValueType) {
-            this.name = name;
-            this.defaultValue = defaultValue;
-            this.defaultValueType = defaultValueType;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Object getDefaultValue() {
-            return defaultValue;
-        }
-
-        public Class<?> getDefaultValueType() {
-            return defaultValueType;
-        }
-
-    }
 }

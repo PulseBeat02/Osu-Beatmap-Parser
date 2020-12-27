@@ -11,9 +11,12 @@ import com.github.pulsebeat02.parse.structure.StoryboardsCategory;
 import com.github.pulsebeat02.parse.structure.TimingpointsCategory;
 import com.github.pulsebeat02.parse.structure.VideosCategory;
 
+import java.io.File;
+
 public class OsuFile {
 
     private final OszFile parent;
+    private final File file;
     private final BackgroundsCategory backgrounds;
     private final BreaksCategory breaks;
     private final ColoursCategory colours;
@@ -26,6 +29,7 @@ public class OsuFile {
     private final VideosCategory videos;
 
     public OsuFile(final OszFile parent,
+                   final File file,
                    final BackgroundsCategory backgrounds,
                    final BreaksCategory breaks,
                    final ColoursCategory colours,
@@ -37,6 +41,7 @@ public class OsuFile {
                    final TimingpointsCategory timings,
                    final VideosCategory videos) {
         this.parent = parent;
+        this.file = file;
         this.backgrounds = backgrounds;
         this.breaks = breaks;
         this.colours = colours;
@@ -51,6 +56,10 @@ public class OsuFile {
 
     public OszFile getParent() {
         return parent;
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public BackgroundsCategory getBackgrounds() {
@@ -96,6 +105,7 @@ public class OsuFile {
     public static class OsuFileBuilder {
 
         private OszFile parent;
+        private File file;
         private BackgroundsCategory backgrounds;
         private BreaksCategory breaks;
         private ColoursCategory colours;
@@ -109,6 +119,11 @@ public class OsuFile {
 
         public OsuFileBuilder setParent(final OszFile parent) {
             this.parent = parent;
+            return this;
+        }
+
+        public OsuFileBuilder setFile(final File file) {
+            this.file = file;
             return this;
         }
 
@@ -163,7 +178,7 @@ public class OsuFile {
         }
 
         public OsuFile createOsuFile() {
-            return new OsuFile(parent, backgrounds, breaks, colours, difficulties, events, general, metadataCategory, boards, timings, videos);
+            return new OsuFile(parent, file, backgrounds, breaks, colours, difficulties, events, general, metadataCategory, boards, timings, videos);
         }
 
     }

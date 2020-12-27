@@ -1,12 +1,17 @@
 package com.github.pulsebeat02.parse.structure;
 
+import com.github.pulsebeat02.file.OsuFile;
+import com.github.pulsebeat02.parse.CommaSeparatedValueFactory;
+
+import java.io.IOException;
 import java.util.List;
 
-public class BackgroundsCategory {
+public class BackgroundsCategory extends CommaSeparatedValueFactory {
 
     private final List<Background> backgrounds;
 
-    public BackgroundsCategory(final List<Background> backgrounds) {
+    public BackgroundsCategory(final OsuFile file, final List<Background> backgrounds) throws IOException {
+        super("Backgrounds", file, BackgroundsCategory.class);
         this.backgrounds = backgrounds;
     }
 

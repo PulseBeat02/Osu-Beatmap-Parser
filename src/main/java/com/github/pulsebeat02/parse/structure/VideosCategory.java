@@ -1,12 +1,17 @@
 package com.github.pulsebeat02.parse.structure;
 
+import com.github.pulsebeat02.file.OsuFile;
+import com.github.pulsebeat02.parse.CommaSeparatedValueFactory;
+
+import java.io.IOException;
 import java.util.List;
 
-public class VideosCategory {
+public class VideosCategory extends CommaSeparatedValueFactory {
 
     private final List<Video> videos;
 
-    public VideosCategory(List<Video> videos) {
+    public VideosCategory(final OsuFile file, final List<Video> videos) throws IOException {
+        super("Videos", file, VideosCategory.class);
         this.videos = videos;
     }
 

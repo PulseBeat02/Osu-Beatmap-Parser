@@ -1,12 +1,17 @@
 package com.github.pulsebeat02.parse.structure;
 
+import com.github.pulsebeat02.file.OsuFile;
+import com.github.pulsebeat02.parse.CommaSeparatedValueFactory;
+
+import java.io.IOException;
 import java.util.List;
 
-public class EventsCategory {
+public class EventsCategory extends CommaSeparatedValueFactory {
 
     private final List<OsuEvent> events;
 
-    public EventsCategory(final List<OsuEvent> events) {
+    public EventsCategory(final OsuFile file, final List<OsuEvent> events) throws IOException {
+        super("Events", file, EventsCategory.class);
         this.events = events;
     }
 

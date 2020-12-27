@@ -1,15 +1,20 @@
 package com.github.pulsebeat02.parse.structure;
 
+import com.github.pulsebeat02.file.OsuFile;
+import com.github.pulsebeat02.parse.CommaSeparatedValueFactory;
+
+import java.io.IOException;
 import java.util.Map;
 
-public class ColoursCategory {
+public class ColoursCategory extends CommaSeparatedValueFactory {
 
     private final Map<Integer, Colour> comboColour;
     private final Colour sliderTrackColour;
     private final Colour sliderBorderColour;
 
-    public ColoursCategory(final Map<Integer, Colour> comboColour,
-                           final Colour sliderTrackColour, final Colour sliderBorderColour) {
+    public ColoursCategory(final OsuFile file, final Map<Integer, Colour> comboColour,
+                           final Colour sliderTrackColour, final Colour sliderBorderColour) throws IOException {
+        super("Colours", file, ColoursCategory.class);
         this.comboColour = comboColour;
         this.sliderTrackColour = sliderTrackColour;
         this.sliderBorderColour = sliderBorderColour;
