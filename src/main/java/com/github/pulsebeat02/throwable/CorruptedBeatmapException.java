@@ -1,8 +1,8 @@
 package com.github.pulsebeat02.throwable;
 
-public class VideoNotFoundException extends AssertionError {
+public class CorruptedBeatmapException extends AssertionError {
 
-    public VideoNotFoundException(final String exception) {
+    public CorruptedBeatmapException(final String exception) {
         super(exception);
     }
 
@@ -20,5 +20,6 @@ public class VideoNotFoundException extends AssertionError {
     public synchronized Throwable fillInStackTrace() {
         return this;
     }
+
 
 }

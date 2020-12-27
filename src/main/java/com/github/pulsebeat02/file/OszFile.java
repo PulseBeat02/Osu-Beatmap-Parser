@@ -1,54 +1,41 @@
 package com.github.pulsebeat02.file;
 
-import com.github.pulsebeat02.throwable.VideoNotFoundException;
+import com.github.pulsebeat02.throwable.CorruptedBeatmapException;
 import com.github.pulsebeat02.utility.FileUtilities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.zip.ZipEntry;
+import java.util.Objects;
 import java.util.zip.ZipFile;
 
 public class OszFile {
 
-    private final File file;
+    private final File osz;
+    private final File destination;
     private final ZipFile zip;
     private final File audio;
     private final File video;
     private final List<File> background;
     private final List<File> hitSounds;
     private final List<File> difficulties;
-    private final String path;
-    private final String name;
 
-    public OszFile(final String path, final String name,
-                   final String audioPath, final String videoPath, final String backgroundPath, final String hitSoundPath, final String difficultyPath,
-                   final boolean video) throws IOException {
-        this.file = new File(path);
-        if (!(file.exists() || file.isFile())) {
+    public OszFile(final String path, final String extractionPath) throws IOException {
+        this.osz = new File(path);
+        if (!(osz.exists() || osz.isFile())) {
             throw new FileNotFoundException("Osu Beatmap Not Found At: " + path);
         }
+        this.destination = new File(extractionPath);
         this.zip = new ZipFile(path);
-        this.audio = readAudioFile(audioPath);
-        this.video = video ? readVideoFile(videoPath) : null;
-        this.background = readBackgroundFiles(backgroundPath);
-        this.hitSounds = readHitSounds(hitSoundPath);
-        this.difficulties = readDifficulties(difficultyPath);
-        this.path = path;
-        this.name = name;
+        FileUtilities.unZipFile(path, extractionPath);
+        this.audio = getAudioFile();
+        this.video = getVideoFile();
+        this.background = getBackgroundPictures();
+        this.hitSounds = getHitSounds();
+        this.difficulties = getDifficulties();
         zip.close();
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public ZipFile getZip() {
@@ -59,144 +46,77 @@ public class OszFile {
         return video != null;
     }
 
-    private File readAudioFile(final String path) throws IOException {
-        File file = new File(path);
-        Enumeration<? extends ZipEntry> entries = zip.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry entry = entries.nextElement();
-            if (entry.getName().equals("audio.mp3")) {
-                FileUtilities.writeFileFromInputStream(zip.getInputStream(entry), file);
-                break;
-            }
-
-        }
-        return file;
-    }
-
-    private File readVideoFile(final String path) throws IOException {
-        File file = new File(path);
-        boolean found = false;
-        Enumeration<? extends ZipEntry> entries = zip.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry entry = entries.nextElement();
-            if (FileUtilities.getFileExtension(entry.getName()).equals(".mp4")) {
-                FileUtilities.writeFileFromInputStream(zip.getInputStream(entry), file);
-                found = true;
-                break;
+    public File getAudioFile() throws IOException {
+        for (File f : Objects.requireNonNull(destination.listFiles())) {
+            if (f.getName().equals("audio.mp3")) {
+                return f;
             }
         }
-        if (!found) {
-            throw new VideoNotFoundException("Video not found in File!");
-        }
-        return file;
+        throw new CorruptedBeatmapException("Audio not found for Osu File: " + osz.getCanonicalPath());
     }
 
-    private List<File> readBackgroundFiles(final String path) throws IOException {
-        List<File> pictures = new ArrayList<>();
-        Enumeration<? extends ZipEntry> entries = zip.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry entry = entries.nextElement();
-            File file = new File(entry.getName());
-            if (FileUtilities.getFileExtension(entry.getName()).equals(".jpg")) {
-                FileUtilities.writeFileFromInputStream(zip.getInputStream(entry), file);
-                FileUtilities.moveFileDirectory(file.getCanonicalPath(), path);
-                pictures.add(file);
-                break;
+    public File getVideoFile() throws IOException {
+        for (File f : Objects.requireNonNull(destination.listFiles())) {
+            if (FileUtilities.getFileExtension(f.getName()).equals(".mp4")) {
+                return f;
             }
-
         }
-        return pictures;
+        return null;
     }
 
-    private List<File> readHitSounds(final String path) throws IOException {
-        List<File> hitsounds = new ArrayList<>();
-        Enumeration<? extends ZipEntry> entries = zip.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry entry = entries.nextElement();
-            File file = new File(entry.getName());
-            if (FileUtilities.getFileExtension(entry.getName()).equals(".mp3") && !entry.getName().equals("audio.mp3")) {
-                FileUtilities.writeFileFromInputStream(zip.getInputStream(entry), file);
-                FileUtilities.moveFileDirectory(file.getCanonicalPath(), path);
-                hitsounds.add(file);
-                break;
+    public List<File> getBackgroundPictures() {
+        List<File> files = new ArrayList<>();
+        for (File f : Objects.requireNonNull(destination.listFiles())) {
+            if (FileUtilities.getFileExtension(f.getName()).equals(".jpg")) {
+                files.add(f);
             }
-
         }
-        return hitsounds;
+        return files;
     }
 
-    private List<File> readDifficulties(final String path) throws IOException {
-        List<File> difficulties = new ArrayList<>();
-        Enumeration<? extends ZipEntry> entries = zip.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry entry = entries.nextElement();
-            File file = new File(entry.getName());
-            if (FileUtilities.getFileExtension(entry.getName()).equals(".osu")) {
-                FileUtilities.writeFileFromInputStream(zip.getInputStream(entry), file);
-                FileUtilities.moveFileDirectory(file.getCanonicalPath(), path);
-                difficulties.add(file);
-                break;
+    public List<File> getHitSounds() {
+        List<File> files = new ArrayList<>();
+        for (File f : Objects.requireNonNull(destination.listFiles())) {
+            String name = f.getName();
+            if (FileUtilities.getFileExtension(name).equals(".wav")) {
+                files.add(f);
             }
-
         }
-        return difficulties;
+        return files;
     }
 
-    public static class OszFileBuilder {
-
-        private String path;
-        private String name;
-        private String audioPath;
-        private String videoPath;
-        private String backgroundPath;
-        private String hitSoundPath;
-        private String difficultyPath;
-        private boolean video;
-
-        public OszFileBuilder setPath(final String path) {
-            this.path = path;
-            return this;
+    private List<File> getDifficulties() {
+        List<File> files = new ArrayList<>();
+        for (File f : Objects.requireNonNull(destination.listFiles())) {
+            String name = f.getName();
+            if (FileUtilities.getFileExtension(name).equals(".osu")) {
+                files.add(f);
+            }
         }
+        return files;
+    }
 
-        public OszFileBuilder setName(final String name) {
-            this.name = name;
-            return this;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("File Path: ");
+        try {
+            sb.append(osz.getCanonicalPath());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        public OszFileBuilder setAudioPath(final String audioPath) {
-            this.audioPath = audioPath;
-            return this;
-        }
-
-        public OszFileBuilder setVideoPath(final String videoPath) {
-            this.videoPath = videoPath;
-            return this;
-        }
-
-        public OszFileBuilder setBackgroundPath(final String backgroundPath) {
-            this.backgroundPath = backgroundPath;
-            return this;
-        }
-
-        public OszFileBuilder setHitSoundPath(final String hitSoundPath) {
-            this.hitSoundPath = hitSoundPath;
-            return this;
-        }
-
-        public OszFileBuilder setDifficultyPath(final String difficultyPath) {
-            this.difficultyPath = difficultyPath;
-            return this;
-        }
-
-        public OszFileBuilder setVideo(final boolean video) {
-            this.video = video;
-            return this;
-        }
-
-        public OszFile build() throws IOException {
-            return new OszFile(path, name, audioPath, videoPath, backgroundPath, hitSoundPath, difficultyPath, video);
-        }
-
+        sb.append(System.lineSeparator());
+        sb.append("Audio File: ").append(audio);
+        sb.append(System.lineSeparator());
+        sb.append("Video File: ").append(video);
+        sb.append(System.lineSeparator());
+        sb.append("Background Files: ").append(background);
+        sb.append(System.lineSeparator());
+        sb.append("Sounds (Hit) File: ").append(hitSounds);
+        sb.append(System.lineSeparator());
+        sb.append("Osu Files: ").append(difficulties);
+        sb.append(System.lineSeparator());
+        return sb.toString();
     }
 
 }

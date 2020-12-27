@@ -2,7 +2,7 @@ package com.github.pulsebeat02.throwable;
 
 public class BeatmapParseException extends AssertionError {
 
-    public BeatmapParseException(String exception) {
+    public BeatmapParseException(final String exception) {
         super(exception);
     }
 
