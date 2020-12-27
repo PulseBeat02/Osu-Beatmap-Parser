@@ -1,6 +1,6 @@
 package com.github.pulsebeat02.parse.structure.hittable;
 
-import com.github.pulsebeat02.throwable.MinecraftBeatmapParseException;
+import com.github.pulsebeat02.throwable.BeatmapParseException;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class Slider extends Hittable {
                     return type;
                 }
             }
-            throw new MinecraftBeatmapParseException("Can't find Curve Type: " + c);
+            throw new BeatmapParseException("Can't find Curve Type: " + c);
         }
 
         public char getType() {

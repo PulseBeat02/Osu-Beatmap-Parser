@@ -19,4 +19,5 @@ public class Hittable extends AbstractHittable {
     boolean hasParameters() {
         return parameters;
     }
+
 }

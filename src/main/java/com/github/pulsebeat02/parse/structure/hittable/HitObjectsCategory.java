@@ -1,6 +1,6 @@
 package com.github.pulsebeat02.parse.structure.hittable;
 
-import com.github.pulsebeat02.throwable.MinecraftBeatmapParseException;
+import com.github.pulsebeat02.throwable.BeatmapParseException;
 
 import java.util.List;
 
@@ -85,7 +85,7 @@ public class HitObjectsCategory {
                         return arg;
                     }
                 }
-                throw new MinecraftBeatmapParseException("Could not parse NormalSet/AdditionSet ID");
+                throw new BeatmapParseException("Could not parse NormalSet/AdditionSet ID");
             }
 
             public int getId() {
