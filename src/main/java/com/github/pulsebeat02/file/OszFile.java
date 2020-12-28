@@ -48,7 +48,7 @@ public class OszFile {
 
     public File getAudioFile() throws IOException {
         for (File f : Objects.requireNonNull(destination.listFiles())) {
-            if (f.getName().equals("audio.mp3")) {
+            if (FileUtilities.getFileExtension(f.getName()).equals(".mp3")) {
                 return f;
             }
         }

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class GeneralCategory extends KeyMapFactory {
 
-    private Map<GeneralCategoryKey, Object> values;
+    private final Map<GeneralCategoryKey, Object> values;
 
     public GeneralCategory(final OsuFile file) throws IOException {
         super("General", file, Arrays.stream(GeneralCategoryKey.values()).map(GeneralCategoryKey::getOsuKey).collect(Collectors.toSet()));
@@ -51,10 +51,9 @@ public class GeneralCategory extends KeyMapFactory {
         WIDESCREEN_STORYBOARD(new OsuKey("WidescreenStoryboard", new IntegerValueLimit(new HashSet<>(Arrays.asList(0, 1)), 0), Integer.class)),
         SAMPLES_MATCH_PLAYBACK_RATE(new OsuKey("SamplesMatchPlaybackRate", new IntegerValueLimit(new HashSet<>(Arrays.asList(0, 1)), 0), Integer.class));
 
-        private static Map<String, GeneralCategoryKey> keys;
+        private static final Map<String, GeneralCategoryKey> keys = new HashMap<>();
 
         static {
-            keys = new HashMap<>();
             for (GeneralCategoryKey key : GeneralCategoryKey.values()) {
                 keys.put(key.getOsuKey().getName(), key);
             }
@@ -76,6 +75,7 @@ public class GeneralCategory extends KeyMapFactory {
 
     }
 
+    @Deprecated
     private Object getValue(GeneralCategoryKey key) {
         return values.get(key);
     }
@@ -164,7 +164,7 @@ public class GeneralCategory extends KeyMapFactory {
             if (line.equals("[General]")) {
                 read = true;
                 continue;
-            } else if (line.equals("[Editor]")) {
+            } else if (line.startsWith("[")) {
                 break;
             }
             if (read) {
@@ -176,7 +176,7 @@ public class GeneralCategory extends KeyMapFactory {
                     values.put(categoryKey, ReflectionUtilities.convertToObject(categoryKey.getOsuKey().getDefaultValueType(), value));
                 } catch (ClassCastException ex) {
                     ex.printStackTrace();
-                    throw new KeyNotFoundException("Key could not be found for: ");
+                    throw new KeyNotFoundException("Key could not be found for: " + key);
                 }
             }
         }
