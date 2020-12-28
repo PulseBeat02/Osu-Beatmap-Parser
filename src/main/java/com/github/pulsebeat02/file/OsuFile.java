@@ -1,15 +1,15 @@
 package com.github.pulsebeat02.file;
 
-import com.github.pulsebeat02.parse.structure.BackgroundsCategory;
-import com.github.pulsebeat02.parse.structure.BreaksCategory;
+import com.github.pulsebeat02.parse.structure.event.BackgroundsCategory;
+import com.github.pulsebeat02.parse.structure.event.BreaksCategory;
 import com.github.pulsebeat02.parse.structure.ColoursCategory;
 import com.github.pulsebeat02.parse.structure.DifficultyCategory;
 import com.github.pulsebeat02.parse.structure.EventsCategory;
 import com.github.pulsebeat02.parse.structure.GeneralCategory;
 import com.github.pulsebeat02.parse.structure.MetadataCategory;
-import com.github.pulsebeat02.parse.structure.StoryboardsCategory;
+import com.github.pulsebeat02.parse.structure.event.StoryboardsCategory;
 import com.github.pulsebeat02.parse.structure.TimingpointsCategory;
-import com.github.pulsebeat02.parse.structure.VideosCategory;
+import com.github.pulsebeat02.parse.structure.event.VideosCategory;
 
 import java.io.File;
 

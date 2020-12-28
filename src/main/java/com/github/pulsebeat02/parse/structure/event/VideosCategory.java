@@ -1,4 +1,4 @@
-package com.github.pulsebeat02.parse.structure;
+package com.github.pulsebeat02.parse.structure.event;
 
 import com.github.pulsebeat02.file.OsuFile;
 import com.github.pulsebeat02.parse.CommaSeparatedValueFactory;

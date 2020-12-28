@@ -1,4 +1,4 @@
-package com.github.pulsebeat02.parse.structure;
+package com.github.pulsebeat02.parse.structure.event;
 
 public class StoryboardsCategory {
 
